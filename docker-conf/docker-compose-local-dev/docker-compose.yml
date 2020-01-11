@@ -21,7 +21,7 @@ services:
       - ./docker-conf/docker-php-ext-extras.ini:/usr/local/etc/php/conf.d/docker-php-ext-extras.ini:ro
     working_dir: /var/www/html/src
     ports:
-      - 8001:80
+      - 8010:80
     links:
       - mssql
       - redis
