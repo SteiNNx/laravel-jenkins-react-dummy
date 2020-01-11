@@ -1,6 +1,7 @@
 version: "3"
 services:
   mssql:
+    container_name: mssql
     image: mcr.microsoft.com/mssql/server
     environment:
       - ACCEPT_EULA=Y
@@ -9,9 +10,11 @@ services:
       - 1433:1433
 
   redis:
+    container_name: redis
     image: redis
 
   app:
+    container_name: app
     build:
       context: .
       dockerfile: dockerfiles/dockerfile-php73/dockerfile
