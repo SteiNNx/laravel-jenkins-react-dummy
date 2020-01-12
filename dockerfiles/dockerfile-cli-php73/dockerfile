@@ -1,0 +1,38 @@
+FROM php:7.3-cli
+
+ARG BUILD_DATE
+ARG VCS_REF
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV PHP_XDEBUG_DEFAULT_ENABLE ${PHP_XDEBUG_DEFAULT_ENABLE:-1}
+ENV PHP_XDEBUG_REMOTE_ENABLE ${PHP_XDEBUG_REMOTE_ENABLE:-1}
+ENV PHP_XDEBUG_REMOTE_HOST ${PHP_XDEBUG_REMOTE_HOST:-"127.0.0.1"}
+ENV PHP_XDEBUG_REMOTE_PORT ${PHP_XDEBUG_REMOTE_PORT:-9000}
+ENV PHP_XDEBUG_REMOTE_AUTO_START ${PHP_XDEBUG_REMOTE_AUTO_START:-1}
+ENV PHP_XDEBUG_REMOTE_CONNECT_BACK ${PHP_XDEBUG_REMOTE_CONNECT_BACK:-1}
+ENV PHP_XDEBUG_IDEKEY ${PHP_XDEBUG_IDEKEY:-docker}
+ENV PHP_XDEBUG_PROFILER_ENABLE ${PHP_XDEBUG_PROFILER_ENABLE:-0}
+ENV PHP_XDEBUG_PROFILER_OUTPUT_DIR ${PHP_XDEBUG_PROFILER_OUTPUT_DIR:-"/tmp"}
+
+LABEL Maintainer="Jorge Reyes <jorge_irving_15@hotmail.com>" \
+      Description="php 7.2 container based on php:7.2-apache with pdo_mssql, xDebug enabled & composer installed."
+
+
+RUN set -ex \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf /tmp/*
+
+# COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug-dev.ini
+
+# ENV LC_ALL es_CL.UTF-8
+# ENV LANG es_CL.UTF-8
+# ENV LANGUAGE es_CL.UTF-8
+
+ENV DOCUMENT_ROOT /var/www/html
+RUN sed -ri -e 's!/var/www/html!${DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+USER www-data
+WORKDIR /var/www/html
+EXPOSE 8181
+CMD php ./public/artisan serve --host=0.0.0.0 --port=8181

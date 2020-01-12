@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * App\Models\Usuarios
+ * App\Models\UsuariosCollection
  * @property string nombre
  * @property string password
  * @property string|null $api_token
@@ -28,7 +28,7 @@ class Usuarios extends Authenticatable {
 	public $incrementing = false;
 	protected $keyType = 'string';
 	protected $primaryKey = 'nombre';
-	protected $table = 'Usuarios';
+	protected $table = 'UsuariosCollection';
 	protected $fillable = [ 'nombre', 'api_token' ];
 
 	protected $hidden = [ 'remember_token', 'api_token' ];

@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('Usuarios', function (Blueprint $table) {
+        Schema::create('UsuariosCollection', function (Blueprint $table) {
             $table->string('nombre');
             $table->string('password');
             $table->string( 'api_token', 60 )->unique()->nullable();
@@ -32,6 +32,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Usuarios');
+        Schema::dropIfExists('UsuariosCollection');
     }
 }
