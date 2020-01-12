@@ -28,7 +28,7 @@ class Usuarios extends Authenticatable {
 	public $incrementing = false;
 	protected $keyType = 'string';
 	protected $primaryKey = 'nombre';
-	protected $table = 'UsuariosCollection';
+	protected $table = 'Usuarios';
 	protected $fillable = [ 'nombre', 'api_token' ];
 
 	protected $hidden = [ 'remember_token', 'api_token' ];
